@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WESLEY DEV HUB</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect rx='12' width='100%25' height='100%25' fill='%23010b16'/%3E%3Ctext x='50%25' y='54%25' font-size='36' text-anchor='middle' fill='%2300baff' font-family='Inter,Segoe UI,Roboto,Arial'%3EW%3C/text%3E%3C/svg%3E">
+<style>
+  /* ===========================
+     THEME: Futuristic Neon Blue (Dark)
+     =========================== */
+  :root{
+    --bg-0:#030512;
+    --bg-1:#071027;
+    --panel: rgba(255,255,255,0.03);
+    --glass: rgba(255,255,255,0.04);
+    --neon:#00baff;
+    --neon-2:#2cd4ff;
+    --accent:#00f0ff;
+    --muted:#9fb9d1;
+    --text:#e9f8ff;
+    --danger:#ff6b6b;
+    --success:#7ee787;
+    --glass-border: rgba(0,186,255,0.08);
+  }
+  *{box-sizing:border-box}
+  html,body,#root{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-smoothing:antialiased}
+  /* App container */
+  .app { position:relative; height:100vh; overflow:hidden; }
+  /* SPLASH */
+  .splash { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(2,6,18,0.6), rgba(1,4,12,0.9)); z-index:50 }
+  canvas#particles { position:absolute; inset:0; width:100%; height:100%; display:block }
+  .splash-center { text-align:center; z-index:60; pointer-events:none }
+  .logo-w {
+    width:200px;height:200px;border-radius:28px;
+    display:inline-flex;align-items:center;justify-content:center;font-size:110px;font-weight:800;
+    color:var(--neon); background: linear-gradient(135deg, rgba(0,186,255,0.08), rgba(0,186,255,0.02));
+    box-shadow:0 8px 40px rgba(0,186,255,0.10), 0 0 30px rgba(0,186,255,0.12);
+    border:1px solid var(--glass-border); backdrop-filter: blur(6px); -webkit-app-region:no-drag;
+    animation:logoFloat 3s ease-in-out infinite;
+  }
+  .title { margin-top:14px; font-size:28px; letter-spacing:6px; color:var(--text); text-transform:uppercase; text-shadow:0 0 8px rgba(0,186,255,0.14) }
+  .subtitle { color:var(--neon-2); margin-top:4px; font-weight:700; letter-spacing:3px }
+
+  @keyframes logoFloat {
+    0%{ transform:translateY(0) scale(1); filter:drop-shadow(0 10px 30px rgba(0,186,255,0.04)); }
+    50%{ transform:translateY(-8px) scale(1.02); filter:drop-shadow(0 30px 80px rgba(0,186,255,0.12)); }
+    100%{ transform:translateY(0) scale(1); }
+  }
+
+  /* APP SHELL */
+  .shell { position:relative; display:grid; grid-template-columns:260px 1fr 360px; gap:18px; padding:22px; height:100%; transition:all .3s ease; }
+  .shell.compact { grid-template-columns:80px 1fr; }
+  .sidebar {
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px; border:1px solid var(--glass-border);
+    padding:14px; display:flex; flex-direction:column; gap:12px; min-height:0;
+    backdrop-filter: blur(8px);
+  }
+  .brand { display:flex; align-items:center; gap:12px; padding:4px 8px; }
+  .brand .logo-mini { width:46px;height:46px;border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; color:var(--neon); background:linear-gradient(135deg, rgba(0,186,255,0.06), rgba(0,186,255,0.02)); border:1px solid rgba(0,186,255,0.06) }
+  .brand h1 { margin:0; font-size:16px; letter-spacing:1px }
+  .nav { display:flex; flex-direction:column; gap:6px; margin-top:6px; overflow:auto; padding-right:6px }
+  .nav button { display:flex; gap:10px; align-items:center; padding:10px; border-radius:8px; border:none; background:transparent; color:var(--text); text-align:left; cursor:pointer; transition:all .15s; font-weight:600 }
+  .nav button:hover{ background:rgba(0,186,255,0.04) }
+  .nav button.active{ background:linear-gradient(90deg, rgba(0,186,255,0.06), rgba(0,186,255,0.02)); box-shadow:0 6px 24px rgba(0,186,255,0.04) }
+  .content { display:flex; flex-direction:column; gap:14px; min-height:0; }
+  .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .panel { background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; border:1px solid var(--glass-border); backdrop-filter: blur(8px) }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+  /* Right column */
+  .rightcol { display:flex; flex-direction:column; gap:12px; min-height:0; }
+
+  /* Window controls (simulated) */
+  .window-controls { display:flex; gap:8px; align-items:center; -webkit-app-region:no-drag }
+  .wbtn { width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,0.02); background:transparent; color:var(--neon); display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700 }
+  .wbtn.close { color:var(--danger) }
+
+  /* Dashboard widgets */
+  .clock { font-size:28px; font-weight:700; letter-spacing:1px }
+  .stat { display:flex; gap:12px; align-items:center }
+  .stat .bubble { width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; background:linear-gradient(135deg, rgba(0,186,255,0.06), rgba(0,186,255,0.02)); color:var(--neon) }
+
+  /* Notes area */
+  .notes-list { max-height:360px; overflow:auto; display:flex; flex-direction:column; gap:8px }
+  .note-item { padding:10px; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.01) }
+  .note-item .meta { font-size:12px; color:var(--muted) }
+  .editor { min-height:260px; display:flex; flex-direction:column; gap:8px }
+  textarea.editor-area { width:100%; min-height:200px; resize:vertical; background:transparent; color:var(--text); border:none; outline:none; font-size:14px; }
+
+  /* Search input */
+  .search { display:flex; gap:8px; align-items:center }
+  .search input{ flex:1; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:rgba(0,0,0,0.18); color:var(--text) }
+
+  /* Modal / Login */
+  .overlay { position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.7)); display:flex; align-items:center; justify-content:center; z-index:120 }
+  .login { width:420px; padding:20px; border-radius:12px; text-align:center; }
+  .field{ margin-top:10px; display:flex; gap:8px }
+  input[type="password"], input[type="text"], input[type="number"] { padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); width:100%; background:transparent; color:var(--text) }
+
+  /* Mini-tray icon when minimized */
+  .tray-icon { position:fixed; bottom:18px; left:18px; width:56px; height:56px; border-radius:14px; background:linear-gradient(135deg, rgba(0,186,255,0.08), rgba(0,186,255,0.02)); display:flex; align-items:center; justify-content:center; color:var(--neon); font-weight:800; box-shadow:0 10px 30px rgba(0,186,255,0.06); cursor:pointer; z-index:200; border:1px solid var(--glass-border) }
+
+  /* Small screens */
+  @media (max-width:1000px){
+    .shell{ grid-template-columns: 1fr; padding:12px }
+    .sidebar{ display:flex; flex-direction:row; overflow:auto; gap:8px; min-width:0 }
+    .rightcol{ display:none }
+  }
+
+  /* Tiny UI touches */
+  button.btn { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:linear-gradient(90deg,var(--neon),var(--neon-2)); color:#001923; font-weight:700 }
+  .muted{ color:var(--muted); font-size:13px }
+  .pill{ padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02) }
+
+  /* TOAST */
+  .toast { position:fixed; right:18px; bottom:18px; background:rgba(0,0,0,0.6); padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.03); color:var(--text); box-shadow:0 6px 30px rgba(0,0,0,0.6) }
+</style>
+</head>
+<body>
+<div id="root" class="app">
+  <!-- SPLASH -->
+  <div id="splash" class="splash" aria-hidden="false">
+    <canvas id="particles"></canvas>
+    <div class="splash-center">
+      <div class="logo-w" title="Wesley Dev">W</div>
+      <div class="title">WESLEY DEV</div>
+      <div class="subtitle">H U B</div>
+      <div style="margin-top:12px;color:var(--muted)">Um centro de comando para criadores e devs</div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div id="appShell" style="display:none">
+    <div class="shell" id="shell">
+      <!-- LEFT SIDEBAR -->
+      <aside class="sidebar" role="navigation">
+        <div class="brand">
+          <div class="logo-mini">W</div>
+          <div>
+            <h1 style="margin:0">Wesley Dev</h1>
+            <div class="muted" style="font-size:12px">Hub • Futurista</div>
+          </div>
+        </div>
+        <div class="search panel" style="margin-top:6px">
+          <input id="globalSearch" placeholder="Pesquisar (notas, ideias, tarefas)..." />
+        </div>
+        <div class="nav" id="nav">
+          <button data-view="dashboard" class="active">Dashboard</button>
+          <button data-view="notas">Bloco de Notas</button>
+          <button data-view="ideias">Banco de Ideias</button>
+          <button data-view="criador">Criador de Conteúdo</button>
+          <button data-view="programacao">Programação</button>
+          <button data-view="estudos">Estudos</button>
+          <button data-view="produtividade">Produtividade</button>
+          <button data-view="ferramentas">Ferramentas</button>
+          <button data-view="config">Configurações</button>
+        </div>
+        <div style="margin-top:auto">
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+            <div class="muted">Usuário</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="pill" id="xpBadge">XP: 0</div>
+              <button id="lockBtn" class="wbtn" title="Bloquear">🔒</button>
+            </div>
+          </div>
+          <div style="margin-top:10px; display:flex; gap:8px">
+            <button id="minimizeBtn" class="wbtn" title="Minimizar">_</button>
+            <button id="maximizeBtn" class="wbtn" title="Maximizar">▢</button>
+            <button id="closeBtn" class="wbtn close" title="Fechar">✕</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER -->
+      <main class="content">
+        <div class="topbar">
+          <div>
+            <div class="clock" id="clock">--:--</div>
+            <div class="muted" id="date">-- -- ----</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="muted" id="motivational">"Codifique, publique, aprenda." </div>
+            <div class="window-controls">
+              <button id="soundToggle" class="wbtn" title="Som">🔈</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEWS -->
+        <section id="views" style="margin-top:6px; min-height:0; display:flex; gap:12px;">
+          <!-- DASHBOARD -->
+          <div id="dashboard" class="panel" style="flex:1 1 auto; display:block">
+            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap">
+              <div style="display:flex; gap:12px; align-items:center">
+                <div class="panel stat" style="display:flex; align-items:center; gap:12px">
+                  <div class="bubble">⌛</div>
+                  <div>
+                    <div class="muted">Tempo hoje</div>
+                    <div id="todayTime">0h 0m</div>
+                  </div>
+                </div>
+                <div class="panel stat">
+                  <div class="bubble">⭐</div>
+                  <div>
+                    <div class="muted">Conquistas</div>
+                    <div id="level">Nível 1</div>
+                  </div>
+                </div>
+              </div>
+              <div style="min-width:220px; text-align:right">
+                <div class="muted">Metas da semana</div>
+                <div id="weeklyGoals">Nenhuma meta definida</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px" class="grid2">
+              <div class="panel">
+                <h3 style="margin:0 0 8px 0">Resumo</h3>
+                <div class="muted" id="summary">Bem-vindo ao Wesley Dev Hub — tudo pronto.</div>
+                <div style="margin-top:10px">
+                  <button id="newNoteQuick" class="btn">Nova Nota</button>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h3 style="margin:0 0 8px 0">Meta rápida</h3>
+                <input id="quickGoal" placeholder="Adicionar meta..." />
+                <div style="margin-top:8px">
+                  <button id="addQuickGoal" class="btn">Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NOTES VIEW -->
+          <div id="notas" class="panel" style="flex:1 1 auto; display:none; min-width:0">
+            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:10px">
+              <h3 style="margin:0">Bloco de Notas</h3>
+              <div style="display:flex; gap:8px">
+                <button id="createNote" class="btn">+ Nova Nota</button>
+                <select id="filterCategory"><option value="">Todas</option></select>
+              </div>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <aside style="width:320px">
+                <input id="noteSearch" placeholder="Pesquisar notas..." style="width:100%; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--text)" />
+                <div class="notes-list panel" id="notesList" style="margin-top:8px"></div>
+              </aside>
+              <section style="flex:1">
+                <div id="noteEditor" class="panel editor">
+                  <input id="noteTitle" placeholder="Título da nota" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03); background:transparent;color:var(--text)" />
+                  <textarea id="noteContent" class="editor-area" placeholder="Escreva aqui..."></textarea>
+                  <div style="display:flex; gap:8px; align-items:center">
+                    <input id="noteCategory" placeholder="Categoria" style="padding:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)" />
+                    <button id="saveNote" class="btn">Salvar</button>
+                    <button id="deleteNote" class="btn" style="background:linear-gradient(90deg,var(--danger), #ff9b9b); color:white">Excluir</button>
+                    <label style="margin-left:auto; display:flex; gap:8px; align-items:center">
+                      <input type="checkbox" id="favNote" /> Favorito
+                    </label>
+                  </div>
+                  <div class="muted" id="noteMeta">Criado: — Editado: —</div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <!-- IDEAS VIEW -->
+          <div id="ideias" class="panel" style="flex:1 1 auto; display:none; min-width:0">
+            <h3>Banco de Ideias</h3>
+            <div style="display:flex; gap:8px; margin-top:8px">
+              <input id="ideaText" placeholder="Descrever ideia..." style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)" />
+              <select id="ideaType">
+                <option value="video">Vídeo</option><option value="live">Live</option><option value="prog">Programação</option><option value="proj">Projeto</option><option value="study">Estudo</option><option value="church">Igreja</option>
+              </select>
+              <input id="ideaTags" placeholder="tags (vídeo,js,...)" style="width:160px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)" />
+              <button id="addIdea" class="btn">Salvar</button>
+            </div>
+            <div id="ideasList" style="margin-top:12px; max-height:420px; overflow:auto"></div>
+          </div>
+
+          <!-- CREATOR, PROGRAMMING, STUDIES, PRODUCTIVITY, TOOLS, CONFIG -->
+          <div id="criador" class="panel" style="display:none; min-width:0;">
+            <h3>Criador de Conteúdo</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap">
+              <textarea id="planVideo" placeholder="Planejamento de vídeo..." style="width:100%;min-height:120px;background:transparent;border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:8px;color:var(--text)"></textarea>
+              <div style="display:flex; gap:8px"><button id="savePlan" class="btn">Salvar Plano</button><button id="openAgenda" class="btn">Agenda</button></div>
+            </div>
+          </div>
+
+          <div id="programacao" class="panel" style="display:none; min-width:0;">
+            <h3>Programação</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap">
+              <div style="flex:1">
+                <h4>Projetos</h4>
+                <div id="projectsList"></div>
+                <div style="margin-top:8px"><input id="newProjectName" placeholder="Nome do projeto" /><button id="addProject" class="btn">Adicionar</button></div>
+              </div>
+              <div style="width:320px">
+                <h4>Bugs / Funcionalidades</h4>
+                <div id="issuesList"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="estudos" class="panel" style="display:none; min-width:0;">
+            <h3>Estudos</h3>
+            <div style="display:flex; gap:8px">
+              <div style="flex:1">
+                <h4>Anotações escolares</h4>
+                <textarea id="studyNotes" placeholder="Anotações..." style="width:100%;min-height:140px;background:transparent;border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:8px;color:var(--text)"></textarea>
+              </div>
+              <div style="width:320px">
+                <h4>Calendário & Tarefas</h4>
+                <div id="studyTasks"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="produtividade" class="panel" style="display:none; min-width:0;">
+            <h3>Produtividade</h3>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1">
+                <h4>Lista de Tarefas</h4>
+                <input id="taskText" placeholder="Nova tarefa..." style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)" />
+                <div id="tasksList" style="margin-top:8px"></div>
+              </div>
+              <div style="width:320px">
+                <h4>Pomodoro</h4>
+                <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+                  <div id="pomTimer" style="font-size:36px;font-weight:800">25:00</div>
+                  <div style="display:flex; gap:8px">
+                    <button id="pomStart" class="btn">Start</button>
+                    <button id="pomStop" class="btn">Stop</button>
+                    <button id="pomSkip" class="btn">Skip</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="ferramentas" class="panel" style="display:none; min-width:0;">
+            <h3>Ferramentas</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr; gap:8px">
+              <div class="panel">
+                <h4>Calculadora</h4>
+                <input id="calcExpr" placeholder="Ex: (12+3)/3" style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+                <div style="margin-top:8px"><button id="calcRun" class="btn">Calcular</button><div id="calcResult" class="muted" style="margin-top:8px"></div></div>
+              </div>
+              <div class="panel">
+                <h4>Gerador de Senhas</h4>
+                <input id="passLength" type="number" min="6" max="64" value="16" style="width:80px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+                <div style="margin-top:8px">
+                  <button id="genPass" class="btn">Gerar</button>
+                  <div id="passResult" class="muted" style="margin-top:8px;word-break:break-all"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="config" class="panel" style="display:none; min-width:0;">
+            <h3>Configurações</h3>
+            <div style="display:flex; gap:12px; flex-direction:column">
+              <div style="display:flex; gap:8px; align-items:center">
+                <label>Auto-lock (minutos)</label>
+                <input id="autoLockMins" type="number" min="1" max="60" value="5" style="width:80px;padding:6px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+              </div>
+              <div style="display:flex; gap:8px; align-items:center">
+                <label>Ativar proteção por senha</label>
+                <button id="setPassword" class="btn">Configurar Senha</button>
+                <button id="removePassword" class="btn" style="background:linear-gradient(90deg,var(--danger), #ff9b9b); color:white">Remover Senha</button>
+              </div>
+              <div>
+                <h4>Integração Draxion AI (opcional)</h4>
+                <input id="aiKey" placeholder="Coloque sua chave (opcional)" style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+                <div class="muted" style="margin-top:6px">A chave é salva localmente e usada apenas se você habilitar a IA.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- RIGHT COLUMN -->
+      <aside class="rightcol">
+        <div class="panel">
+          <h4>Conquistas & XP</h4>
+          <div id="achievementsList" style="display:flex; gap:8px; flex-wrap:wrap"></div>
+        </div>
+        <div class="panel">
+          <h4>Atalhos rápidos</h4>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <button id="openNotes" class="btn">Abrir Notas</button>
+            <button id="openIdeas" class="btn">Abrir Ideias</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- MINIMIZED TRAY ICON -->
+  <div id="trayIcon" class="tray-icon" style="display:none">W</div>
+
+  <!-- OVERLAY LOGIN / LOCK -->
+  <div id="overlay" class="overlay" style="display:none">
+    <div class="login panel" id="loginPanel">
+      <div style="display:flex;gap:12px;align-items:center;justify-content:center"><div class="logo-mini">W</div><h2 style="margin:0">WESLEY DEV HUB</h2></div>
+      <p class="muted" id="loginMsg">Insira sua senha para acessar</p>
+      <div id="loginFields" style="margin-top:8px">
+        <div class="field"><input id="passwordInput" type="password" placeholder="Senha" /></div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+          <button id="loginBtn" class="btn">Entrar</button>
+          <button id="setupBtn" class="btn" style="display:none">Criar Senha</button>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:10px;font-size:13px">Esqueceu a senha? A senha não pode ser recuperada — você pode resetar e perder dados protegidos.</div>
+      <div style="margin-top:8px;display:flex;gap:8px;justify-content:center"><button id="resetProtected" class="btn" style="background:linear-gradient(90deg,var(--danger), #ff9b9b);color:white">Resetar Proteção</button></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" style="display:none"></div>
+</div>
+
+<script>
+/* =======================
+   Utils & Storage Helpers
+   ======================= */
+const $ = (sel, ctx=document) => ctx.querySelector(sel);
+const $$ = (sel, ctx=document) => Array.from((ctx||document).querySelectorAll(sel));
+function toast(msg, t=3000){ const to = $('#toast'); to.innerText = msg; to.style.display='block'; clearTimeout(to._t); to._t=setTimeout(()=>to.style.display='none', t); }
+
+/* Local storage keys */
+const KEY_SETTINGS = 'wdh_settings_v1';
+const KEY_PROTECTED = 'wdh_protected_v1'; // contains {salt,hash} if password set
+const KEY_DATA = 'wdh_data_v1'; // encrypted or plain JSON
+
+/* Default app data shape */
+const defaultData = {
+  notes: [],
+  ideas: [],
+  tasks: [],
+  projects: [],
+  issues: [],
+  plans: {},
+  xp: 0,
+  achievements: [],
+  meta:{ created: new Date().toISOString() }
+};
+
+/* Load settings */
+let SETTINGS = JSON.parse(localStorage.getItem(KEY_SETTINGS) || JSON.stringify({ autoLockMins:5, sound:true }));
+
+/* Activity / lock */
+let LOCKED = false;
+let AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000;
+let lastActivity = Date.now();
+
+/* In-memory decrypted key material (not persisted) */
+let derivedKey = null;
+
+/* =========================
+   Crypto: password protect
+   =========================
+   Uses Web Crypto: PBKDF2 + AES-GCM
+*/
+async function bufToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+async function b64ToBuf(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)); }
+
+/* Derive a CryptoKey from password & salt */
+async function deriveKeyFromPassword(password, salt, iterations=200000){
+  const enc = new TextEncoder();
+  const pwKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt: salt, iterations, hash:'SHA-256' },
+    pwKey,
+    { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
+  );
+}
+
+/* Create password: store salt & verifier */
+async function createPassword(password){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKeyFromPassword(password, salt);
+  // create a verifier by encrypting a known text
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const cipher = await crypto.subtle.encrypt({ name:'AES-GCM', iv}, key, enc.encode('wesley-hub-verifier'));
+  const protector = { salt: await bufToB64(salt), iv: await bufToB64(iv), cipher: await bufToB64(cipher) };
+  localStorage.setItem(KEY_PROTECTED, JSON.stringify(protector));
+  toast('Senha configurada. Notas protegidas.');
+}
+
+/* Verify password: decrypt verifier */
+async function verifyPassword(password){
+  const prot = JSON.parse(localStorage.getItem(KEY_PROTECTED)||'null');
+  if(!prot) return false;
+  try{
+    const salt = await b64ToBuf(prot.salt);
+    const iv = await b64ToBuf(prot.iv);
+    const cipher = await b64ToBuf(prot.cipher);
+    const key = await deriveKeyFromPassword(password, salt);
+    const plain = await crypto.subtle.decrypt({ name:'AES-GCM', iv}, key, cipher);
+    const dec = new TextDecoder().decode(plain);
+    if(dec==='wesley-hub-verifier'){ derivedKey = key; return true; }
+    return false;
+  }catch(e){ return false; }
+}
+
+/* Encrypt app data (JSON) using given password-derived key */
+async function encryptDataWithKey(key, obj){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const data = enc.encode(JSON.stringify(obj));
+  const cipher = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, data);
+  return { iv: await bufToB64(iv), cipher: await bufToB64(cipher) };
+}
+/* Decrypt */
+async function decryptDataWithKey(key, blob){
+  const iv = await b64ToBuf(blob.iv);
+  const cipher = await b64ToBuf(blob.cipher);
+  const plain = await crypto.subtle.decrypt({ name:'AES-GCM', iv }, key, cipher);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+/* Save / load data (handles protection) */
+async function loadAppData(){
+  const raw = localStorage.getItem(KEY_DATA);
+  if(!raw){
+    return JSON.parse(JSON.stringify(defaultData));
+  }
+  try{
+    const parsed = JSON.parse(raw);
+    if(parsed.encrypted){
+      if(!derivedKey) throw new Error('locked');
+      return await decryptDataWithKey(derivedKey, parsed.blob);
+    } else {
+      return parsed.blob;
+    }
+  }catch(e){
+    console.warn('loadAppData error', e);
+    return JSON.parse(JSON.stringify(defaultData));
+  }
+}
+async function saveAppData(obj){
+  const prot = localStorage.getItem(KEY_PROTECTED);
+  if(prot && derivedKey){
+    // encrypt
+    const blob = await encryptDataWithKey(derivedKey, obj);
+    localStorage.setItem(KEY_DATA, JSON.stringify({ encrypted:true, blob }));
+  } else {
+    localStorage.setItem(KEY_DATA, JSON.stringify({ encrypted:false, blob:obj }));
+  }
+}
+
+/* Reset protection: clears password & data (warn user) */
+function resetProtection(){
+  if(!confirm('Isso removerá a proteção e os dados criptografados. Deseja continuar?')) return;
+  localStorage.removeItem(KEY_PROTECTED);
+  localStorage.removeItem(KEY_DATA);
+  derivedKey = null;
+  toast('Proteção resetada. Dados removidos.');
+  location.reload();
+}
+
+/* =================
+   Application State
+   ================= */
+let APP = null; // holds loaded data
+
+/* ================
+   Activity & Lock
+   ================ */
+function resetInactivity(){
+  lastActivity = Date.now();
+  if(LOCKED) return;
+}
+function startAutoLockTimer(){
+  AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000;
+  clearInterval(window._lockChk);
+  window._lockChk = setInterval(()=> {
+    if(Date.now() - lastActivity > AUTOLOCK_MS && !LOCKED){
+      doLock();
+    }
+  }, 2000);
+}
+
+/* Lock / Unlock UI */
+function showOverlay(msg='Insira sua senha'){
+  $('#overlay').style.display='flex';
+  $('#loginMsg').innerText = msg;
+  $('#passwordInput').value = '';
+  $('#passwordInput').focus();
+}
+function hideOverlay(){
+  $('#overlay').style.display='none';
+}
+async function doLock(){
+  LOCKED = true;
+  derivedKey = null;
+  showOverlay('A sessão está bloqueada. Insira sua senha.');
+  toast('Sessão bloqueada.');
+}
+async function doUnlock(password){
+  if(!localStorage.getItem(KEY_PROTECTED)){
+    // no password set -> unlock immediately
+    LOCKED = false;
+    hideOverlay();
+    return true;
+  }
+  const ok = await verifyPassword(password);
+  if(ok){
+    LOCKED = false;
+    hideOverlay();
+    // reload app data using derivedKey
+    APP = await loadAppData();
+    renderAll();
+    toast('Desbloqueado');
+    return true;
+  } else {
+    toast('Senha incorreta');
+    return false;
+  }
+}
+
+/* ========================
+   UI: Splash & Particles
+   ======================== */
+function startSplash(){
+  const splash = $('#splash');
+  const appShell = $('#appShell');
+  // Particles canvas
+  const canvas = $('#particles');
+  const ctx = canvas.getContext('2d');
+  function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  // create particles
+  const P = [];
+  for(let i=0;i<80;i++){
+    P.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      vx: (Math.random()-0.5)*0.35,
+      vy: (Math.random()-0.5)*0.35,
+      r: 0.5 + Math.random()*2.2,
+      alpha: 0.2 + Math.random()*0.7
+    });
+  }
+  let t0 = performance.now();
+  function frame(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const dt = (t - t0)/1000; t0 = t;
+    for(const p of P){
+      p.x += p.vx * (1 + Math.sin(t/5000)*2);
+      p.y += p.vy * (1 + Math.cos(t/5000)*2);
+      if(p.x < -10) p.x = canvas.width+10;
+      if(p.x > canvas.width+10) p.x = -10;
+      if(p.y < -10) p.y = canvas.height+10;
+      if(p.y > canvas.height+10) p.y = -10;
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(44,212,255,'+p.alpha+')';
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = '#00baff';
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // Optional sound prompt
+  // let audio = new Audio(); audio.src = 'startup.mp3'; // no external file bundled
+
+  setTimeout(async ()=> {
+    // hide splash, show app
+    splash.style.transition = 'opacity .8s ease';
+    splash.style.opacity = 0;
+    setTimeout(()=> splash.style.display='none', 900);
+    appShell.style.display = 'block';
+    await initApp(); // load data and render
+  }, 4200);
+}
+
+/* =========================
+   App Initialization Logic
+   ========================= */
+async function initApp(){
+  // load settings & data
+  startAutoLockTimer();
+  APP = await loadAppData();
+  renderAll();
+
+  // if password set and no derivedKey -> show overlay login
+  if(localStorage.getItem(KEY_PROTECTED) && !derivedKey){
+    LOCKED = true;
+    showOverlay('Insira sua senha para desbloquear');
+  } else {
+    LOCKED = false;
+    hideOverlay();
+  }
+  bindEvents();
+  // update clock
+  setInterval(()=> { const d=new Date(); $('#clock').innerText = d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); $('#date').innerText = d.toLocaleDateString(); }, 1000);
+}
+
+/* ===================
+   Render / Templates
+   =================== */
+function renderAll(){
+  renderNotes();
+  renderIdeas();
+  renderProjects();
+  renderTasks();
+  renderAchievements();
+  $('#xpBadge').innerText = 'XP: ' + (APP.xp||0);
+  $('#weeklyGoals').innerText = (APP.plans.weekly || 'Nenhuma meta definida');
+  $('#level').innerText = 'Nível ' + (1 + Math.floor((APP.xp||0)/100));
+  $('#todayTime').innerText = '0h 0m'; // placeholder
+}
+
+/* Notes functions */
+function renderNotes(){
+  // populate categories filter
+  const cats = [...new Set(APP.notes.map(n=>n.category).filter(Boolean))];
+  const sel = $('#filterCategory');
+  sel.innerHTML = '<option value="">Todas</option>' + cats.map(c=>`<option>${c}</option>`).join('');
+
+  // notes list
+  const list = $('#notesList'); list.innerHTML = '';
+  const q = $('#noteSearch').value.toLowerCase();
+  const filtered = APP.notes.filter(n => !q || (n.title||'').toLowerCase().includes(q) || (n.content||'').toLowerCase().includes(q));
+  for(const n of filtered.sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt))){
+    const el = document.createElement('div'); el.className='note-item';
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><strong>${escapeHtml(n.title||'Sem título')}</strong><div class="meta">${n.category || ''} • ${new Date(n.updatedAt).toLocaleString()}</div></div><div><button class="btn small" data-id="${n.id}" data-act="open">Abrir</button></div></div>`;
+    list.appendChild(el);
+  }
+  // clear editor
+  clearEditor();
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function clearEditor(){ $('#noteTitle').value=''; $('#noteContent').value=''; $('#noteCategory').value=''; $('#noteMeta').innerText=''; $('#favNote').checked=false; $('#deleteNote').dataset.id=''; }
+function openNoteById(id){
+  const n = APP.notes.find(x=>x.id===id); if(!n) return;
+  $('#noteTitle').value = n.title; $('#noteContent').value = n.content; $('#noteCategory').value = n.category || ''; $('#noteMeta').innerText = 'Criado: ' + new Date(n.createdAt).toLocaleString() + ' • Editado: ' + new Date(n.updatedAt).toLocaleString(); $('#favNote').checked = !!n.favorite; $('#deleteNote').dataset.id = n.id; $('#saveNote').dataset.id = n.id;
+}
+function createNote(){
+  const now = new Date().toISOString();
+  const note = { id: 'n'+Date.now(), title:'Nova nota', content:'', favorite:false, category:'', createdAt:now, updatedAt:now };
+  APP.notes.unshift(note);
+  saveAppData(APP);
+  renderAll();
+  openNoteById(note.id);
+}
+function saveNoteFromEditor(){
+  const id = $('#saveNote').dataset.id;
+  const title = $('#noteTitle').value;
+  const content = $('#noteContent').value;
+  const category = $('#noteCategory').value;
+  const fav = $('#favNote').checked;
+  if(id){
+    const n = APP.notes.find(x=>x.id===id);
+    if(n){ n.title=title; n.content=content; n.category=category; n.favorite=fav; n.updatedAt = new Date().toISOString(); }
+  } else {
+    const now = new Date().toISOString();
+    const note = { id:'n'+Date.now(), title, content, favorite:fav, category, createdAt:now, updatedAt:now };
+    APP.notes.unshift(note);
+    $('#saveNote').dataset.id = note.id;
+    $('#deleteNote').dataset.id = note.id;
+  }
+  saveAppData(APP);
+  renderAll();
+  toast('Nota salva');
+}
+function deleteNoteById(id){
+  if(!id) return;
+  if(!confirm('Excluir nota?')) return;
+  APP.notes = APP.notes.filter(n=>n.id!==id);
+  saveAppData(APP);
+  renderAll();
+  clearEditor();
+  toast('Nota removida');
+}
+
+/* Ideas */
+function renderIdeas(){
+  const list = $('#ideasList'); list.innerHTML='';
+  for(const it of (APP.ideas||[]).slice().reverse()){
+    const el = document.createElement('div'); el.className='panel'; el.style.marginBottom='8px';
+    el.innerHTML = `<div><strong>${escapeHtml(it.text)}</strong></div><div class="muted">${it.type} • ${it.tags||''} • ${new Date(it.createdAt).toLocaleString()}</div>`;
+    list.appendChild(el);
+  }
+}
+function addIdea(){
+  const text = $('#ideaText').value.trim(); if(!text) return;
+  const type = $('#ideaType').value; const tags = $('#ideaTags').value;
+  APP.ideas.push({ id:'i'+Date.now(), text, type, tags, createdAt:new Date().toISOString() });
+  saveAppData(APP); renderIdeas(); $('#ideaText').value=''; toast('Ideia salva');
+}
+
+/* Projects */
+function renderProjects(){
+  const p = $('#projectsList'); p.innerHTML='';
+  for(const pr of (APP.projects||[])){
+    const el = document.createElement('div'); el.className='muted'; el.style.marginBottom='6px';
+    el.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${escapeHtml(pr.name)}</strong><div class="muted">${pr.desc||''}</div></div><div><button class="btn small" data-act="openProj" data-id="${pr.id}">Abrir</button></div></div>`;
+    p.appendChild(el);
+  }
+}
+function addProject(){
+  const name = $('#newProjectName').value.trim(); if(!name) return;
+  APP.projects.push({ id:'p'+Date.now(), name, desc:'' });
+  saveAppData(APP); $('#newProjectName').value=''; renderProjects(); toast('Projeto criado');
+}
+
+/* Tasks & Pomodoro */
+function renderTasks(){
+  const tlist = $('#tasksList'); tlist.innerHTML='';
+  for(const t of (APP.tasks||[]).slice().reverse()){
+    const el = document.createElement('div'); el.style.display='flex'; el.style.justifyContent='space-between'; el.style.alignItems='center'; el.style.marginBottom='6px';
+    el.innerHTML = `<div><input type="checkbox" data-id="${t.id}" ${t.done?'checked':''}/> <strong>${escapeHtml(t.text)}</strong> <span class="muted" style="font-size:12px">${t.due?('• '+t.due):''}</span></div><div><button class="btn small" data-act="rm" data-id="${t.id}">X</button></div>`;
+    tlist.appendChild(el);
+  }
+}
+function addTask(){
+  const txt = $('#taskText').value.trim(); if(!txt) return;
+  APP.tasks.push({ id:'t'+Date.now(), text:txt, done:false, createdAt:new Date().toISOString() });
+  $('#taskText').value=''; saveAppData(APP); renderTasks();
+}
+function toggleTaskDone(id, done){
+  const t = APP.tasks.find(x=>x.id===id); if(!t) return;
+  t.done = done;
+  saveAppData(APP); renderTasks();
+  if(done){ grantXP(10); toast('+10 XP'); }
+}
+
+/* Achievements & XP */
+function grantXP(amount){
+  APP.xp = (APP.xp||0) + (amount||0);
+  saveAppData(APP); renderAchievements(); $('#xpBadge').innerText = 'XP: ' + APP.xp;
+}
+function renderAchievements(){
+  const el = $('#achievementsList'); el.innerHTML='';
+  const list = (APP.achievements||[]);
+  if(list.length===0) el.innerHTML = '<div class="muted">Nenhuma conquista ainda.</div>';
+  for(const a of list){
+    const d = document.createElement('div'); d.className='pill'; d.innerText = a.title; el.appendChild(d);
+  }
+}
+
+/* Tools */
+function runCalc(){
+  const ex = $('#calcExpr').value.trim(); if(!ex) return;
+  try{
+    // safe-ish eval using Function
+    const val = Function('"use strict"; return ('+ex+')')();
+    $('#calcResult').innerText = String(val);
+  }catch(e){ $('#calcResult').innerText = 'Erro'; }
+}
+function genPassword(len){
+  len = Math.max(6, Math.min(128, parseInt(len)||16));
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:,.<>?';
+  let out=''; for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)];
+  $('#passResult').innerText = out;
+}
+
+/* Window controls (simulated) */
+function minimizeApp(){
+  $('#appShell').style.display = 'none';
+  $('#trayIcon').style.display = 'flex';
+  toast('Minimizado');
+}
+function restoreApp(){
+  $('#appShell').style.display = 'block';
+  $('#trayIcon').style.display = 'none';
+}
+
+/* ====================
+   Event Bindings
+   ==================== */
+function bindEvents(){
+  // Nav buttons
+  $$('#nav button').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      $$('#nav button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      openView(b.dataset.view);
+    });
+  });
+  // Global search
+  $('#globalSearch').addEventListener('input', (e)=>{ const q=e.target.value.toLowerCase(); // quick search for notes/ideas/tasks
+    // open notes view and filter
+    document.querySelector('[data-view="notas"]').click();
+    $('#noteSearch').value = q; renderNotes();
+  });
+
+  // Minimize / restore / maximize / close (close hides)
+  $('#minimizeBtn').addEventListener('click', minimizeApp);
+  $('#trayIcon').addEventListener('click', restoreApp);
+  $('#closeBtn').addEventListener('click', ()=>{ if(confirm('Fechar aplicativo?')) window.close(); });
+  $('#maximizeBtn').addEventListener('click', ()=>{ document.getElementById('shell').classList.toggle('compact'); });
+
+  // Lock
+  $('#lockBtn').addEventListener('click', ()=> doLock());
+  $('#overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay'){} });
+
+  // Login overlay buttons
+  $('#loginBtn').addEventListener('click', async ()=>{ const pw = $('#passwordInput').value; await doUnlock(pw); });
+  $('#setupBtn').addEventListener('click', async ()=>{ const pw = $('#passwordInput').value; if(!pw) return toast('Senha vazia'); await createPassword(pw); hideOverlay(); });
+  $('#resetProtected').addEventListener('click', resetProtection);
+
+  // Notes UI
+  $('#noteSearch').addEventListener('input', ()=> renderNotes());
+  $('#createNote').addEventListener('click', ()=> { createNote(); });
+  $('#newNoteQuick').addEventListener('click', ()=> { createNote(); document.querySelector('[data-view="notas"]').click(); });
+  $('#notesList').addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(btn && btn.dataset.act==='open'){ openNoteById(btn.dataset.id); }});
+  $('#saveNote').addEventListener('click', saveNoteFromEditor);
+  $('#deleteNote').addEventListener('click', ()=> deleteNoteById($('#deleteNote').dataset.id));
+  // Autosave content on typing
+  let autosaveTimer = null;
+  $('#noteContent').addEventListener('input', ()=> { clearTimeout(autosaveTimer); autosaveTimer = setTimeout(()=> saveNoteFromEditor(), 800); });
+
+  // Ideas
+  $('#addIdea').addEventListener('click', addIdea);
+
+  // Projects
+  $('#addProject').addEventListener('click', addProject);
+
+  // Tasks
+  $('#taskText').addEventListener('keypress', (e)=>{ if(e.key==='Enter') addTask(); });
+  $('#tasksList').addEventListener('click', (e)=>{ const cb = e.target.closest('input[type="checkbox"]'); if(cb) toggleTaskDone(cb.dataset.id, cb.checked);
+    const btn = e.target.closest('button'); if(btn && btn.dataset.act==='rm'){ APP.tasks = APP.tasks.filter(t=>t.id!==btn.dataset.id); saveAppData(APP); renderTasks(); }
+  });
+
+  // Tools
+  $('#calcRun').addEventListener('click', runCalc);
+  $('#genPass').addEventListener('click', ()=> genPassword($('#passLength').value) );
+
+  // Quick replies
+  $('#openNotes').addEventListener('click', ()=> document.querySelector('[data-view="notas"]').click());
+  $('#openIdeas').addEventListener('click', ()=> document.querySelector('[data-view="ideias"]').click());
+
+  // Config: password set/remove
+  $('#setPassword').addEventListener('click', ()=> {
+    // show setupBtn on overlay
+    $('#setupBtn').style.display='inline-block';
+    $('#loginBtn').style.display='none';
+    showOverlay('Crie uma senha para proteger suas notas');
+  });
+  $('#removePassword').addEventListener('click', ()=> {
+    if(!localStorage.getItem(KEY_PROTECTED)) return toast('Sem senha configurada');
+    if(confirm('Remover a senha? Isso tornará seus dados visíveis novamente.')) {
+      // To remove safely, we need to decrypt existing data first; for simplicity, reset protection (warn user)
+      resetProtection();
+    }
+  });
+
+  // save settings changes
+  $('#autoLockMins').addEventListener('change', ()=> { SETTINGS.autoLockMins = +$('#autoLockMins').value; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); startAutoLockTimer(); });
+
+  // note list open when clicking note items handled above
+  // sound toggle
+  $('#soundToggle').addEventListener('click', ()=> { SETTINGS.sound = !SETTINGS.sound; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); toast('Som ' + (SETTINGS.sound ? 'ativado' : 'desativado')); });
+
+  // window activity detection to reset inactivity
+  ['mousemove','keydown','mousedown','touchstart'].forEach(ev => window.addEventListener(ev, resetInactivity));
+}
+
+/* Open view helper */
+function openView(name){
+  $$('#views > div, #views > section').forEach(v=>v.style.display='none');
+  const id = $('#'+name);
+  if(id) id.style.display='block';
+}
+
+/* ============================
+   Pomodoro (simple)
+   ============================ */
+let pomInterval=null; let pomSeconds=1500; let pomRunning=false;
+function updatePomDisplay(){ const mm = String(Math.floor(pomSeconds/60)).padStart(2,'0'); const ss = String(pomSeconds%60).padStart(2,'0'); $('#pomTimer').innerText = mm+':'+ss; }
+$('#pomStart').addEventListener('click', ()=> { if(pomRunning) return; pomRunning=true; pomInterval=setInterval(()=>{ if(pomSeconds>0) pomSeconds--; else { clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; grantXP(20); toast('Pomodoro concluído +20 XP'); } updatePomDisplay(); }, 1000); });
+$('#pomStop').addEventListener('click', ()=> { clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; updatePomDisplay(); });
+$('#pomSkip').addEventListener('click', ()=> { clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; updatePomDisplay(); });
+
+/* =========================
+   Startup
+   ========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  startSplash();
+
+  // Wire overlay initial state depending on whether a password exists
+  const prot = localStorage.getItem(KEY_PROTECTED);
+  if(!prot){
+    // show setup option on overlay login so user can create password later from settings
+    $('#setupBtn').style.display='none';
+    $('#loginBtn').style.display='inline-block';
+  } else {
+    $('#setupBtn').style.display='none';
+    $('#loginBtn').style.display='inline-block';
+  }
+
+  // Setup create password button in config to open overlay
+  $('#setPassword').addEventListener('click', ()=> {
+    $('#setupBtn').style.display='inline-block';
+    $('#loginBtn').style.display='none';
+    showOverlay('Crie sua senha de proteção');
+  });
+
+  // Quick bindings (some elements defined earlier)
+  // create note btn for quick action in dashboard
+  $('#newNoteQuick').addEventListener('click', ()=> { document.querySelector('[data-view="notas"]').click(); createNote(); });
+
+  // Hook save plan
+  $('#savePlan').addEventListener('click', ()=> { APP.plans.video = $('#planVideo').value; saveAppData(APP); toast('Plano salvo'); });
+
+  // Bind saveNote element exists but earlier attached events might not see it if element created late
+  // Because bindEvents attaches many listeners that rely on elements existing, ensure they exist.
+});
+
+/* Expose some helpers to console for debugging */
+window.WDH = { loadAppData, saveAppData, APP };
+
+/* EOF */
+</script>
+</body>
+</html>
