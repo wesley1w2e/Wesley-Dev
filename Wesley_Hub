@@ -3,34 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>WESLEY DEV HUB — Versão Profissional</title>
+<title>WESLEY DEV HUB — Versão Estável</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect rx='12' width='100%25' height='100%25' fill='%23010b16'/%3E%3Ctext x='50%25' y='54%25' font-size='36' text-anchor='middle' fill='%2300baff' font-family='Inter,Segoe UI,Roboto,Arial'%3EW%3C/text%3E%3C/svg%3E">
 <style>
-  /* ---------------------------
-     WESLEY DEV HUB — Theme v2
-     Futuristic Neon Blue, glass, smooth animations
-     --------------------------- */
   :root{
-    --bg-0:#020412;
-    --bg-1:#071027;
-    --panel: rgba(255,255,255,0.03);
-    --glass: rgba(255,255,255,0.04);
-    --neon:#00baff;
-    --neon-2:#2cd4ff;
-    --accent:#00f0ff;
-    --muted:#9fb9d1;
-    --text:#e9f8ff;
-    --danger:#ff6b6b;
-    --glass-border: rgba(0,186,255,0.08);
-    --radius:12px;
-    --glass-blur:10px;
+    --bg-0:#020412; --bg-1:#071027; --neon:#00baff; --neon-2:#2cd4ff; --muted:#9fb9d1; --text:#e9f8ff;
+    --danger:#ff6b6b; --glass-border: rgba(0,186,255,0.08); --radius:12px; --glass-blur:10px;
   }
   *{box-sizing:border-box}
-  html,body,#root{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial}
+  html,body,#root{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));color:var(--text);font-family:Inter,system-ui,Roboto,Arial}
   .app{position:relative;height:100vh;overflow:hidden}
-
-  /* SPLASH */
-  .splash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(1,6,14,0.85),rgba(1,4,10,0.95));z-index:999;transition:opacity .9s ease}
+  .splash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(1,6,14,0.85),rgba(1,4,10,0.95));z-index:999;transition:opacity .9s}
   #splashCanvas{position:absolute;inset:0;width:100%;height:100%}
   .splash-inner{position:relative;z-index:3;text-align:center;pointer-events:none}
   .logo-card{width:220px;height:220px;border-radius:28px;display:inline-flex;align-items:center;justify-content:center;font-size:120px;font-weight:900;color:var(--neon);background:linear-gradient(135deg, rgba(0,186,255,0.08), rgba(0,186,255,0.02));border:1px solid var(--glass-border);backdrop-filter: blur(10px);box-shadow:0 30px 100px rgba(0,186,255,0.08), inset 0 1px 0 rgba(255,255,255,0.02);transform:scale(0.92);opacity:0; }
@@ -38,13 +21,9 @@
   .splash-sub{margin-top:6px;color:var(--neon-2);font-weight:700;opacity:0}
   .splash-progress{width:360px;height:8px;border-radius:999px;background:rgba(255,255,255,0.02);margin:18px auto 0;overflow:hidden;opacity:0}
   .splash-progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--neon-2));box-shadow:0 6px 24px rgba(0,186,255,0.12)}
-  .splash-fade{opacity:0;transform:translateY(6px);transition:all .9s cubic-bezier(.2,.9,.2,1)}
-
-  /* cinematic overlays */
   .vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.45) 100%);z-index:2}
   .scanline{position:absolute;left:-30%;top:0;width:60%;height:100%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);transform:skewX(-18deg);opacity:0.06;pointer-events:none;z-index:4}
 
-  /* APP SHELL */
   .shell{position:relative;display:grid;grid-template-columns:260px 1fr 360px;gap:18px;padding:28px;height:100%;transition:all .28s ease;opacity:0}
   .sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);border:1px solid var(--glass-border);padding:16px;display:flex;flex-direction:column;gap:12px;backdrop-filter: blur(var(--glass-blur))}
   .brand{display:flex;align-items:center;gap:12px}
@@ -56,32 +35,19 @@
   .content{display:flex;flex-direction:column;gap:14px;min-height:0}
   .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid var(--glass-border);backdrop-filter: blur(var(--glass-blur));transition:box-shadow .18s}
   .panel:hover{box-shadow:0 30px 80px rgba(0,186,255,0.03)}
-
   .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
   .clock{font-size:28px;font-weight:800}
   .muted{color:var(--muted)}
   .btn{padding:9px 14px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--neon),var(--neon-2));color:#041017;font-weight:800}
   .wbtn{width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:var(--neon);display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700}
-
-  /* notes */
   .notes-list{max-height:420px;overflow:auto;display:flex;flex-direction:column;gap:8px}
   .note-item{padding:12px;border-radius:10px;cursor:pointer;background:rgba(255,255,255,0.01);transition:transform .12s}
   .note-item:hover{transform:translateY(-4px)}
-
-  /* overlay login/lock */
-  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.7));display:flex;align-items:center;justify-content:center;z-index:120;backdrop-filter: blur(4px)}
+  .overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.7));display:flex;align-items:center;justify-content:center;z-index:120;backdrop-filter: blur(4px);display:none}
   .login{width:460px;padding:20px;border-radius:12px;text-align:center}
-  .field{margin-top:10px;display:flex;gap:8px}
-  input[type="password"], input[type="text"], input[type="number"], textarea{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);width:100%;background:transparent;color:var(--text)}
-
-  /* tray icon */
-  .tray-icon{position:fixed;bottom:18px;left:18px;width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg, rgba(0,186,255,0.08), rgba(0,186,255,0.02));display:flex;align-items:center;justify-content:center;color:var(--neon);font-weight:900;box-shadow:0 20px 60px rgba(0,186,255,0.06);cursor:pointer;z-index:220;border:1px solid var(--glass-border)}
-  /* small screens */
+  input, textarea, select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);width:100%;background:transparent;color:var(--text)}
+  .tray-icon{position:fixed;bottom:18px;left:18px;width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg, rgba(0,186,255,0.08), rgba(0,186,255,0.02));display:flex;align-items:center;justify-content:center;color:var(--neon);font-weight:900;box-shadow:0 20px 60px rgba(0,186,255,0.06);cursor:pointer;z-index:220;border:1px solid var(--glass-border);display:none}
   @media (max-width:1000px){ .shell{grid-template-columns:1fr; padding:12px} .rightcol{display:none} .sidebar{flex-direction:row;overflow:auto} }
-
-  /* transitions */
-  .fade-in{animation:fadeIn .6s ease both}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -99,10 +65,9 @@
     </div>
   </div>
 
-  <!-- APP SHELL (hidden until splash finishes) -->
+  <!-- APP SHELL -->
   <div id="appShell" style="display:none;">
     <div class="shell" id="shell">
-      <!-- LEFT -->
       <aside class="sidebar" role="navigation">
         <div class="brand">
           <div class="logo-mini">W</div>
@@ -112,13 +77,13 @@
           </div>
         </div>
         <div class="panel" style="padding:8px">
-          <input id="globalSearch" placeholder="Pesquisar..." style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+          <input id="globalSearch" placeholder="Pesquisar..." />
         </div>
         <nav class="nav" id="nav">
           <button data-view="dashboard" class="active">Dashboard</button>
           <button data-view="notas">Bloco de Notas</button>
           <button data-view="ideias">Banco de Ideias</button>
-          <button data-view="criador">Criador de Conteúdo</button>
+          <button data-view="criador">Criador</button>
           <button data-view="programacao">Programação</button>
           <button data-view="estudos">Estudos</button>
           <button data-view="produtividade">Produtividade</button>
@@ -130,11 +95,10 @@
           <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
             <div class="muted">Usuário</div>
             <div style="display:flex;gap:8px;align-items:center">
-              <div class="pill" id="xpBadge" style="padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02)">XP: 0</div>
+              <div id="xpBadge" style="padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02)">XP: 0</div>
               <button id="lockBtn" class="wbtn" title="Bloquear">🔒</button>
             </div>
           </div>
-
           <div style="margin-top:12px;display:flex;gap:8px">
             <button id="minimizeBtn" class="wbtn" title="Minimizar">_</button>
             <button id="maximizeBtn" class="wbtn" title="Compact">▢</button>
@@ -143,25 +107,22 @@
         </div>
       </aside>
 
-      <!-- CENTER -->
       <main class="content">
         <div class="topbar panel">
           <div>
-            <div class="clock" id="clock">--:--</div>
-            <div class="muted" id="date">-- -- ----</div>
+            <div id="clock" class="clock">--:--</div>
+            <div id="date" class="muted">-- -- ----</div>
           </div>
           <div style="display:flex;gap:12px;align-items:center">
-            <div class="muted" id="motivational">"Codifique. Crie. Cresça."</div>
+            <div id="motivational" class="muted">"Codifique. Crie. Cresça."</div>
             <div style="display:flex;gap:8px;align-items:center">
               <button id="soundToggle" class="wbtn" title="Som">🔈</button>
-              <div style="width:12px"></div>
             </div>
           </div>
         </div>
 
-        <section id="views" style="min-height:0">
-          <!-- Dashboard -->
-          <div id="dashboard" class="panel fade-in">
+        <section id="views">
+          <div id="dashboard" class="panel">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
               <div>
                 <div style="font-size:20px;font-weight:800">Painel</div>
@@ -171,20 +132,12 @@
                 <button id="newNoteQuick" class="btn">+ Nota Rápida</button>
               </div>
             </div>
-
             <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-              <div class="panel">
-                <div class="muted">Tempo Hoje</div>
-                <div id="todayTime" style="font-weight:800;font-size:18px">0h 0m</div>
-              </div>
-              <div class="panel">
-                <div class="muted">Nível</div>
-                <div id="level" style="font-weight:800;font-size:18px">Nível 1</div>
-              </div>
+              <div class="panel"><div class="muted">Tempo Hoje</div><div id="todayTime" style="font-weight:800;font-size:18px">0h 0m</div></div>
+              <div class="panel"><div class="muted">Nível</div><div id="level" style="font-weight:800;font-size:18px">Nível 1</div></div>
             </div>
           </div>
 
-          <!-- NOTES -->
           <div id="notas" class="panel" style="display:none">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
               <div><h3 style="margin:0">Bloco de Notas</h3><div class="muted">Crie, edite, proteja</div></div>
@@ -195,7 +148,7 @@
             </div>
             <div style="display:flex;gap:12px">
               <aside style="width:320px">
-                <input id="noteSearch" placeholder="Pesquisar notas..." style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)"/>
+                <input id="noteSearch" placeholder="Pesquisar notas..." />
                 <div class="notes-list panel" id="notesList" style="margin-top:8px"></div>
               </aside>
               <section style="flex:1">
@@ -207,16 +160,15 @@
                     <button id="saveNote" class="btn">Salvar</button>
                     <button id="deleteNote" class="btn" style="background:linear-gradient(90deg,var(--danger), #ff9b9b);color:white">Excluir</button>
                     <label style="margin-left:auto;display:flex;gap:8px;align-items:center" class="muted">
-                      <input type="checkbox" id="favNote"/> Favorito
+                      <input id="favNote" type="checkbox"/> Favorito
                     </label>
                   </div>
-                  <div class="muted" id="noteMeta">Criado: — • Editado: —</div>
+                  <div id="noteMeta" class="muted">Criado: — • Editado: —</div>
                 </div>
               </section>
             </div>
           </div>
 
-          <!-- IDEAS -->
           <div id="ideias" class="panel" style="display:none">
             <h3>Banco de Ideias</h3>
             <div style="display:flex;gap:8px;margin-top:8px">
@@ -230,7 +182,6 @@
             <div id="ideasList" style="margin-top:12px;max-height:420px;overflow:auto"></div>
           </div>
 
-          <!-- CREATOR, PROGRAMMING, STUDIES, PRODUCTIVITY, TOOLS, CONFIG (kept similar) -->
           <div id="criador" class="panel" style="display:none">
             <h3>Criador de Conteúdo</h3>
             <textarea id="planVideo" placeholder="Planejamento..." style="width:100%;min-height:120px"></textarea>
@@ -245,10 +196,7 @@
                 <div id="projectsList"></div>
                 <div style="margin-top:8px"><input id="newProjectName" placeholder="Nome do projeto"/><button id="addProject" class="btn">Adicionar</button></div>
               </div>
-              <div style="width:320px">
-                <h4>Issues</h4>
-                <div id="issuesList"></div>
-              </div>
+              <div style="width:320px"><h4>Issues</h4><div id="issuesList"></div></div>
             </div>
           </div>
 
@@ -304,14 +252,13 @@
               <div>
                 <h4>Draxion AI (opcional)</h4>
                 <input id="aiKey" placeholder="Chave (opcional)" />
-                <div class="muted" style="margin-top:6px">Salva localmente para uso futuro</div>
+                <div class="muted" style="margin-top:6px">Salva localmente</div>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <!-- RIGHT -->
       <aside class="rightcol" style="display:flex;flex-direction:column;gap:12px">
         <div class="panel">
           <h4>Conquistas & XP</h4>
@@ -328,17 +275,13 @@
     </div>
   </div>
 
-  <!-- tray icon -->
-  <div id="trayIcon" class="tray-icon" style="display:none">W</div>
+  <div id="trayIcon" class="tray-icon">W</div>
 
-  <!-- overlay login -->
-  <div id="overlay" class="overlay" style="display:none">
+  <div id="overlay" class="overlay">
     <div class="login panel">
       <div style="display:flex;gap:12px;align-items:center;justify-content:center"><div class="logo-mini">W</div><h2 style="margin:0">WESLEY DEV HUB</h2></div>
-      <p class="muted" id="loginMsg">Insira sua senha</p>
-      <div class="field" style="margin-top:12px">
-        <input id="passwordInput" type="password" placeholder="Senha" />
-      </div>
+      <p id="loginMsg" class="muted">Insira sua senha</p>
+      <div class="field" style="margin-top:12px"><input id="passwordInput" type="password" placeholder="Senha" /></div>
       <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
         <button id="loginBtn" class="btn">Entrar</button>
         <button id="setupBtn" class="btn" style="display:none">Criar Senha</button>
@@ -346,54 +289,37 @@
       <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
         <button id="resetProtected" class="btn" style="background:linear-gradient(90deg,var(--danger), #ff9b9b);color:white">Resetar Proteção</button>
       </div>
-      <div class="muted" style="margin-top:10px;font-size:13px">Se esquecer a senha, os dados protegidos não podem ser recuperados.</div>
+      <div class="muted" style="margin-top:10px;font-size:13px">Se esquecer a senha, dados protegidos não podem ser recuperados.</div>
     </div>
   </div>
 
-  <!-- toast -->
-  <div id="toast" class="toast" style="display:none;position:fixed;right:18px;bottom:18px;background:rgba(0,0,0,0.6);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);color:var(--text);z-index:250"></div>
+  <div id="toast" style="display:none;position:fixed;right:18px;bottom:18px;background:rgba(0,0,0,0.6);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);color:var(--text);z-index:250"></div>
 </div>
 
 <script>
-/* ==================================================================================
-   WESLEY DEV HUB — Single-file improved (HTML/CSS/JS)
-   - Fixed splash/open sequencing bug
-   - Improved intro + UI polish
-   - All event bindings happen after init
-   - Password protection (WebCrypto) retained
-   ================================================================================== */
-
 (() => {
-  // Helpers
-  const $ = (s, ctx=document) => ctx.querySelector(s);
+  // Safe selectors
+  const $ = (s, ctx=document) => ctx ? ctx.querySelector(s) : null;
   const $$ = (s, ctx=document) => Array.from((ctx||document).querySelectorAll(s));
-  const toast = (txt, t=3000) => {
-    const el = $('#toast');
-    el.textContent = txt; el.style.display='block';
-    clearTimeout(el._t); el._t = setTimeout(()=> el.style.display='none', t);
-  };
+  const safeOn = (sel, cb) => { const el = $(sel); if(el) el.addEventListener('click', cb); };
+  const safeOnInput = (sel, cb) => { const el = $(sel); if(el) el.addEventListener('input', cb); };
 
-  // Storage keys
-  const KEY_SETTINGS = 'wdh_settings_v2';
-  const KEY_PROTECTED = 'wdh_protected_v2';
-  const KEY_DATA = 'wdh_data_v2';
+  const toast = (txt, t=3000) => { const el = $('#toast'); if(!el) return; el.textContent = txt; el.style.display='block'; clearTimeout(el._t); el._t = setTimeout(()=> el.style.display='none', t); };
 
-  // Defaults
+  // Storage keys & defaults
+  const KEY_SETTINGS = 'wdh_settings_v3';
+  const KEY_PROTECTED = 'wdh_protected_v3';
+  const KEY_DATA = 'wdh_data_v3';
   const defaultData = { notes:[], ideas:[], tasks:[], projects:[], issues:[], plans:{}, xp:0, achievements:[], meta:{created:new Date().toISOString()} };
   let SETTINGS = JSON.parse(localStorage.getItem(KEY_SETTINGS) || JSON.stringify({ autoLockMins:5, sound:true }));
 
   // State
-  let APP = null;
-  let LOCKED = false;
-  let derivedKey = null;
-  let lastActivity = Date.now();
-  let AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000;
+  let APP = null; let LOCKED = false; let derivedKey = null; let lastActivity = Date.now(); let AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000;
 
-  // CRYPTO helpers (PBKDF2 + AES-GCM)
+  // Crypto helpers
   const enc = new TextEncoder(), dec = new TextDecoder();
   const bufToB64 = (b) => btoa(String.fromCharCode(...new Uint8Array(b)));
   const b64ToBuf = (s) => Uint8Array.from(atob(s), c=>c.charCodeAt(0));
-
   async function deriveKeyFromPassword(password, salt, iterations=200000){
     const pwKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
     return crypto.subtle.deriveKey({name:'PBKDF2', salt, iterations, hash:'SHA-256'}, pwKey, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
@@ -402,22 +328,18 @@
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const key = await deriveKeyFromPassword(password, salt);
     const iv = crypto.getRandomValues(new Uint8Array(12));
-    const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode('wesley-hub-verifier-v2'));
+    const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode('wesley-hub-verifier-v3'));
     const protector = { salt: bufToB64(salt), iv: bufToB64(iv), cipher: bufToB64(cipher) };
-    localStorage.setItem(KEY_PROTECTED, JSON.stringify(protector));
-    derivedKey = key;
-    toast('Senha criada. Proteção ativada.');
-    return true;
+    localStorage.setItem(KEY_PROTECTED, JSON.stringify(protector)); derivedKey = key; toast('Senha criada'); return true;
   }
   async function verifyPassword(password){
-    const prot = JSON.parse(localStorage.getItem(KEY_PROTECTED) || 'null');
-    if(!prot) return false;
+    const prot = JSON.parse(localStorage.getItem(KEY_PROTECTED) || 'null'); if(!prot) return false;
     try {
       const salt = b64ToBuf(prot.salt), iv = b64ToBuf(prot.iv), cipher = b64ToBuf(prot.cipher);
       const key = await deriveKeyFromPassword(password, salt);
       const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, cipher);
       const txt = dec.decode(plain);
-      if(txt === 'wesley-hub-verifier-v2'){ derivedKey = key; return true; }
+      if(txt === 'wesley-hub-verifier-v3'){ derivedKey = key; return true; }
       return false;
     } catch(e){ return false; }
   }
@@ -432,19 +354,16 @@
     return JSON.parse(dec.decode(plain));
   }
 
+  // Data load/save
   async function loadAppData(){
-    const raw = localStorage.getItem(KEY_DATA);
-    if(!raw) { return JSON.parse(JSON.stringify(defaultData)); }
+    const raw = localStorage.getItem(KEY_DATA); if(!raw) return JSON.parse(JSON.stringify(defaultData));
     try {
       const parsed = JSON.parse(raw);
       if(parsed.encrypted){
         if(!derivedKey) throw new Error('locked');
         return await decryptDataWithKey(derivedKey, parsed.blob);
       } else return parsed.blob;
-    } catch(e){
-      console.warn('loadAppData error', e);
-      return JSON.parse(JSON.stringify(defaultData));
-    }
+    } catch(e){ console.warn('loadAppData error', e); return JSON.parse(JSON.stringify(defaultData)); }
   }
   async function saveAppData(obj){
     try {
@@ -454,71 +373,54 @@
       } else {
         localStorage.setItem(KEY_DATA, JSON.stringify({ encrypted:false, blob:obj }));
       }
-    } catch(e){
-      console.error('saveAppData error', e);
-    }
+    } catch(e){ console.error('saveAppData error', e); }
   }
   function resetProtection(){
-    if(!confirm('Resetar proteção e deletar dados protegidos?')) return;
-    localStorage.removeItem(KEY_PROTECTED);
-    localStorage.removeItem(KEY_DATA);
-    derivedKey = null;
-    toast('Proteção resetada. Reiniciando...');
-    setTimeout(()=> location.reload(), 900);
+    if(!confirm('Resetar proteção e remover dados protegidos?')) return;
+    localStorage.removeItem(KEY_PROTECTED); localStorage.removeItem(KEY_DATA); derivedKey = null;
+    toast('Proteção resetada — reiniciando'); setTimeout(()=> location.reload(), 800);
   }
 
   // Auto-lock
   function resetInactivity(){ lastActivity = Date.now(); }
-  function startAutoLockTimer(){
-    AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000;
-    clearInterval(window._lockChk);
-    window._lockChk = setInterval(()=> {
-      if(Date.now() - lastActivity > AUTOLOCK_MS && !LOCKED){
-        doLock();
-      }
-    }, 2000);
-  }
+  function startAutoLockTimer(){ AUTOLOCK_MS = (SETTINGS.autoLockMins||5)*60*1000; clearInterval(window._lockChk); window._lockChk = setInterval(()=> { if(Date.now() - lastActivity > AUTOLOCK_MS && !LOCKED) doLock(); }, 2000); }
 
-  // UI controls
+  // Overlay / Lock
   function showOverlay(msg='Insira sua senha', showSetup=false){
-    $('#overlay').style.display='flex';
-    $('#loginMsg').textContent = msg;
-    $('#passwordInput').value = '';
-    $('#setupBtn').style.display = showSetup ? 'inline-block' : 'none';
-    $('#loginBtn').style.display = showSetup ? 'none' : 'inline-block';
-    $('#passwordInput').focus();
+    const ov = $('#overlay'); if(!ov) return; ov.style.display='flex';
+    const lm = $('#loginMsg'); if(lm) lm.textContent = msg;
+    const pi = $('#passwordInput'); if(pi) pi.value = '';
+    const setupBtn = $('#setupBtn'), loginBtn = $('#loginBtn');
+    if(setupBtn) setupBtn.style.display = showSetup ? 'inline-block' : 'none';
+    if(loginBtn) loginBtn.style.display = showSetup ? 'none' : 'inline-block';
+    if(pi) pi.focus();
   }
-  function hideOverlay(){ $('#overlay').style.display='none'; }
-  async function doLock(){
-    LOCKED = true; derivedKey = null;
-    showOverlay('Sessão bloqueada. Insira a senha.');
-    toast('Aplicativo bloqueado');
-  }
+  function hideOverlay(){ const ov = $('#overlay'); if(ov) ov.style.display='none'; }
+  async function doLock(){ LOCKED = true; derivedKey = null; showOverlay('Sessão bloqueada. Insira a senha', false); toast('Aplicativo bloqueado'); }
   async function doUnlock(password){
-    if(!localStorage.getItem(KEY_PROTECTED)){
-      LOCKED = false; hideOverlay(); return true;
-    }
+    if(!localStorage.getItem(KEY_PROTECTED)){ LOCKED = false; hideOverlay(); return true; }
     const ok = await verifyPassword(password);
     if(ok){ LOCKED = false; hideOverlay(); APP = await loadAppData(); renderAll(); toast('Desbloqueado'); return true; }
     toast('Senha incorreta'); return false;
   }
 
-  // Splash — particles + cinematic animation + audio optional
+  // Splash (particles + cinematic)
   function startSplashThenInit(){
-    const splash = $('#splash'), canvas = $('#splashCanvas'), ctx = canvas.getContext('2d'), logo = $('#logoCard'), title = $('#splashTitle'), sub = $('#splashSub'), prog = $('#splashProgress'), progBar = prog.querySelector('i');
+    const splash = $('#splash'), canvas = $('#splashCanvas'), logo = $('#logoCard'), title = $('#splashTitle'), sub = $('#splashSub'), prog = $('#splashProgress'), progBar = prog ? prog.querySelector('i') : null;
+    if(!canvas || !logo || !progBar || !title || !sub || !splash){ // fail-safe
+      // show app immediately
+      if($('#appShell')) $('#appShell').style.display = 'block';
+      initApp(); return;
+    }
     let w = canvas.width = window.innerWidth, h = canvas.height = window.innerHeight;
     window.addEventListener('resize', ()=>{ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-    // Create particles (subtle, professional)
+    const ctx = canvas.getContext('2d');
     const P = [];
-    for(let i=0;i<90;i++){
-      P.push({ x: Math.random()*w, y: Math.random()*h, r: 0.6 + Math.random()*2.2, vx: (Math.random()-0.5)*0.45, vy: (Math.random()-0.5)*0.45, alpha: 0.12 + Math.random()*0.6 });
-    }
+    for(let i=0;i<90;i++) P.push({ x: Math.random()*w, y: Math.random()*h, r: 0.6 + Math.random()*2.2, vx: (Math.random()-0.5)*0.45, vy: (Math.random()-0.5)*0.45, alpha: 0.12 + Math.random()*0.6 });
     let last = performance.now();
     function draw(t){
       const dt = (t-last)/1000; last=t;
       ctx.clearRect(0,0,w,h);
-      // subtle background glow radial
       const g = ctx.createRadialGradient(w*0.7, h*0.2, 0, w*0.7, h*0.2, Math.max(w,h));
       g.addColorStop(0, 'rgba(0,186,255,0.02)'); g.addColorStop(1,'rgba(0,0,0,0)');
       ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
@@ -527,27 +429,20 @@
         p.y += p.vy * (1 + Math.cos(t/6000)*0.6);
         if(p.x < -10) p.x = w+10; if(p.x > w+10) p.x = -10;
         if(p.y < -10) p.y = h+10; if(p.y > h+10) p.y = -10;
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(44,212,255,${p.alpha})`;
-        ctx.shadowBlur = 18; ctx.shadowColor = '#00baff';
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.fillStyle = `rgba(44,212,255,${p.alpha})`; ctx.shadowBlur = 18; ctx.shadowColor = '#00baff'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
       }
       requestAnimationFrame(draw);
     }
     requestAnimationFrame(draw);
 
-    // cinematic sequence with Promise chaining
-    const delay = (ms)=> new Promise(r=>setTimeout(r,ms));
+    const delay = ms => new Promise(r=>setTimeout(r, ms));
     (async ()=>{
-      // small entrance
       await delay(300);
       logo.style.transition = 'transform .9s cubic-bezier(.2,.9,.2,1), opacity .9s'; logo.style.transform = 'scale(1)'; logo.style.opacity = 1;
-      // reveal title
       await delay(320);
       title.style.transition = 'opacity .7s .1s, transform .7s .1s'; title.style.opacity = 1; title.style.transform = 'translateY(0)';
       await delay(140);
       sub.style.transition = 'opacity .6s .2s, transform .6s .2s'; sub.style.opacity = 1; sub.style.transform = 'translateY(0)';
-      // progress animate (simulate loading modules)
       prog.style.opacity = 1;
       for(let p=0;p<=100;p+=1){
         progBar.style.width = p + '%';
@@ -556,238 +451,220 @@
         if(p===75) await delay(90);
         await delay(12);
       }
-      // optional startup sound via WebAudio
       if(SETTINGS.sound){
         try{
           const ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
           const o = ctxAudio.createOscillator(), g = ctxAudio.createGain();
-          o.type = 'sine'; o.frequency.value = 520;
-          g.gain.value = 0.0001;
+          o.type = 'sine'; o.frequency.value = 520; g.gain.value = 0.0001;
           o.connect(g); g.connect(ctxAudio.destination);
           o.start();
           g.gain.exponentialRampToValueAtTime(0.08, ctxAudio.currentTime + 0.02);
           g.gain.exponentialRampToValueAtTime(0.00001, ctxAudio.currentTime + 0.5);
           o.stop(ctxAudio.currentTime + 0.6);
-        }catch(e){ console.warn('audio start failed', e); }
+        }catch(e){ /* ignore audio errors */ }
       }
-      // fade out splash and init app
-      splash.style.opacity = 0; await delay(700); splash.style.display='none';
-      // show app shell now
-      $('#appShell').style.display = 'block';
-      // fade-in shell
-      const shell = $('#shell'); shell.style.opacity = 0; shell.style.transition = 'opacity .6s ease, transform .6s ease'; shell.style.transform = 'translateY(8px)';
-      requestAnimationFrame(()=>{ shell.style.opacity = 1; shell.style.transform = 'translateY(0)'; });
-      // Initialize app data and bind events
+      splash.style.opacity = 0; await delay(700); splash.style.display = 'none';
+      const appShell = $('#appShell'); if(appShell) appShell.style.display = 'block';
+      const shell = $('#shell'); if(shell){ shell.style.opacity = 0; shell.style.transition = 'opacity .6s ease, transform .6s ease'; shell.style.transform = 'translateY(8px)'; requestAnimationFrame(()=>{ shell.style.opacity = 1; shell.style.transform = 'translateY(0)'; }); }
       await initApp();
     })();
   }
 
-  // Application core: load data, render, bind
-  async function initApp(){
-    startAutoLockTimer();
-    APP = await loadAppData();
-    renderAll();
-    // if protected & no key, show overlay for unlock
-    if(localStorage.getItem(KEY_PROTECTED) && !derivedKey){
-      LOCKED = true; showOverlay('Insira sua senha para desbloquear', false);
-    } else { LOCKED = false; hideOverlay(); }
-    bindEvents(); // bind all events now that UI exists
-    // realtime clock
-    setInterval(()=> { const d=new Date(); $('#clock').textContent = d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); $('#date').textContent = d.toLocaleDateString(); }, 1000);
+  // Views list for openView
+  const VIEW_IDS = ['dashboard','notas','ideias','criador','programacao','estudos','produtividade','ferramentas','config'];
+
+  function openView(name){
+    VIEW_IDS.forEach(id => { const el = $('#'+id); if(el) el.style.display = 'none'; });
+    const target = $('#'+name); if(target) target.style.display = 'block';
   }
 
-  /* ===========================
-     Rendering helpers (notes, ideas, projects, tasks, achievements)
-     =========================== */
+  // Render and data helpers
   function renderAll(){
     renderNotes(); renderIdeas(); renderProjects(); renderTasks(); renderAchievements();
-    $('#xpBadge').textContent = 'XP: ' + (APP.xp||0);
-    $('#level').textContent = 'Nível ' + (1 + Math.floor((APP.xp||0)/100));
-    $('#todayTime').textContent = '0h 0m';
+    const xpEl = $('#xpBadge'); if(xpEl) xpEl.textContent = 'XP: ' + (APP.xp||0);
+    const levelEl = $('#level'); if(levelEl) levelEl.textContent = 'Nível ' + (1 + Math.floor((APP.xp||0)/100));
+    const todayEl = $('#todayTime'); if(todayEl) todayEl.textContent = '0h 0m';
   }
-  function escapeHtml(s=''){ return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-  // Notes
+  // NOTES
   function renderNotes(){
+    const notesListEl = $('#notesList'); if(!notesListEl) return;
     const cats = [...new Set((APP.notes||[]).map(n=>n.category).filter(Boolean))];
-    $('#filterCategory').innerHTML = '<option value="">Todas</option>' + cats.map(c=>`<option>${escapeHtml(c)}</option>`).join('');
+    const filt = $('#filterCategory'); if(filt) filt.innerHTML = '<option value="">Todas</option>' + cats.map(c=>`<option>${escapeHtml(c)}</option>`).join('');
     const q = ($('#noteSearch')?.value || '').toLowerCase();
-    const list = $('#notesList'); list.innerHTML = '';
-    const items = (APP.notes || []).filter(n => !q || (n.title||'').toLowerCase().includes(q) || (n.content||'').toLowerCase().includes(q));
+    notesListEl.innerHTML = '';
+    const items = (APP.notes || []).filter(n => !q || (String(n.title||'').toLowerCase().includes(q) || String(n.content||'').toLowerCase().includes(q)));
     items.sort((a,b)=> b.updatedAt.localeCompare(a.updatedAt)).forEach(n=>{
-      const el = document.createElement('div'); el.className='note-item panel';
+      const el = document.createElement('div'); el.className = 'note-item panel';
       el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-weight:800">${escapeHtml(n.title||'Sem título')}</div>
-          <div class="muted" style="font-size:12px">${n.category || ''} • ${new Date(n.updatedAt).toLocaleString()}</div>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button class="btn small" data-id="${n.id}" data-act="open">Abrir</button>
-        </div>
+        <div><div style="font-weight:800">${escapeHtml(n.title||'Sem título')}</div><div class="muted" style="font-size:12px">${n.category || ''} • ${new Date(n.updatedAt).toLocaleString()}</div></div>
+        <div style="display:flex;gap:8px"><button class="btn small" data-id="${n.id}" data-act="open">Abrir</button></div>
       </div>`;
-      list.appendChild(el);
+      notesListEl.appendChild(el);
     });
     clearEditor();
   }
-  function clearEditor(){ $('#noteTitle').value=''; $('#noteContent').value=''; $('#noteCategory').value=''; $('#noteMeta').textContent=''; $('#favNote').checked=false; delete $('#deleteNote').dataset.id; delete $('#saveNote').dataset.id; }
+  function clearEditor(){
+    if($('#noteTitle')) $('#noteTitle').value = '';
+    if($('#noteContent')) $('#noteContent').value = '';
+    if($('#noteCategory')) $('#noteCategory').value = '';
+    const meta = $('#noteMeta'); if(meta) meta.textContent = 'Criado: — • Editado: —';
+    const fav = $('#favNote'); if(fav) fav.checked = false;
+    const del = $('#deleteNote'); if(del) del.removeAttribute('data-id');
+    const sv = $('#saveNote'); if(sv) sv.removeAttribute('data-id');
+  }
   function openNoteById(id){
     const n = (APP.notes||[]).find(x=>x.id===id); if(!n) return;
-    $('#noteTitle').value = n.title; $('#noteContent').value = n.content; $('#noteCategory').value = n.category || ''; $('#noteMeta').textContent = 'Criado: ' + new Date(n.createdAt).toLocaleString() + ' • Editado: ' + new Date(n.updatedAt).toLocaleString(); $('#favNote').checked = !!n.favorite; $('#saveNote').dataset.id = n.id; $('#deleteNote').dataset.id = n.id;
+    const t = $('#noteTitle'), c = $('#noteContent'), cat = $('#noteCategory'), meta = $('#noteMeta'), fav = $('#favNote'), sv = $('#saveNote'), del = $('#deleteNote');
+    if(t) t.value = n.title; if(c) c.value = n.content; if(cat) cat.value = n.category || ''; if(meta) meta.textContent = 'Criado: ' + new Date(n.createdAt).toLocaleString() + ' • Editado: ' + new Date(n.updatedAt).toLocaleString(); if(fav) fav.checked = !!n.favorite; if(sv) sv.dataset.id = n.id; if(del) del.dataset.id = n.id;
   }
   function createNote(){
-    const now = new Date().toISOString();
-    const note = { id:'n'+Date.now(), title:'Nova nota', content:'', favorite:false, category:'', createdAt:now, updatedAt:now };
+    const now = new Date().toISOString(); const note = { id:'n'+Date.now(), title:'Nova nota', content:'', favorite:false, category:'', createdAt:now, updatedAt:now };
     APP.notes.unshift(note); saveAppData(APP); renderAll(); openNoteById(note.id);
   }
   function saveNoteFromEditor(){
-    const id = $('#saveNote').dataset.id;
-    const title = $('#noteTitle').value.trim(); const content = $('#noteContent').value; const category = $('#noteCategory').value.trim(); const fav = $('#favNote').checked;
+    const sv = $('#saveNote'); if(!sv) return;
+    const id = sv.dataset.id;
+    const title = $('#noteTitle') ? $('#noteTitle').value.trim() : '';
+    const content = $('#noteContent') ? $('#noteContent').value : '';
+    const category = $('#noteCategory') ? $('#noteCategory').value.trim() : '';
+    const fav = $('#favNote') ? $('#favNote').checked : false;
     if(id){
       const n = APP.notes.find(x=>x.id===id); if(n){ n.title=title; n.content=content; n.category=category; n.favorite=fav; n.updatedAt = new Date().toISOString(); }
     } else {
-      const now = new Date().toISOString();
-      const note = { id:'n'+Date.now(), title, content, favorite:fav, category, createdAt:now, updatedAt:now };
-      APP.notes.unshift(note); $('#saveNote').dataset.id = note.id;
+      const now = new Date().toISOString(); const note = { id:'n'+Date.now(), title, content, favorite:fav, category, createdAt:now, updatedAt:now }; APP.notes.unshift(note); if(sv) sv.dataset.id = note.id;
     }
     saveAppData(APP); renderAll(); toast('Nota salva');
   }
   function deleteNoteById(id){
     if(!id) return; if(!confirm('Excluir nota?')) return;
-    APP.notes = (APP.notes||[]).filter(n=>n.id!==id); saveAppData(APP); renderAll(); clearEditor(); toast('Nota excluída');
+    APP.notes = (APP.notes||[]).filter(n=>n.id!==id); saveAppData(APP); renderAll(); clearEditor(); toast('Nota removida');
   }
 
-  // Ideas
-  function renderIdeas(){ const list = $('#ideasList'); list.innerHTML=''; for(const it of (APP.ideas||[]).slice().reverse()){ const el = document.createElement('div'); el.className='panel'; el.style.marginBottom='8px'; el.innerHTML = `<div style="font-weight:800">${escapeHtml(it.text)}</div><div class="muted">${it.type} • ${it.tags||''} • ${new Date(it.createdAt).toLocaleString()}</div>`; list.appendChild(el); } }
-  function addIdea(){ const text = $('#ideaText').value.trim(); if(!text) return; APP.ideas.push({ id:'i'+Date.now(), text, type:$('#ideaType').value, tags:$('#ideaTags').value, createdAt:new Date().toISOString() }); saveAppData(APP); renderIdeas(); $('#ideaText').value=''; toast('Ideia salva'); }
+  // IDEAS
+  function renderIdeas(){ const list = $('#ideasList'); if(!list) return; list.innerHTML=''; for(const it of (APP.ideas||[]).slice().reverse()){ const el = document.createElement('div'); el.className='panel'; el.style.marginBottom='8px'; el.innerHTML = `<div style="font-weight:800">${escapeHtml(it.text)}</div><div class="muted">${it.type} • ${it.tags||''} • ${new Date(it.createdAt).toLocaleString()}</div>`; list.appendChild(el); } }
+  function addIdea(){ const text = $('#ideaText') ? $('#ideaText').value.trim() : ''; if(!text) return; APP.ideas.push({ id:'i'+Date.now(), text, type:($('#ideaType')?$('#ideaType').value:'outro'), tags:($('#ideaTags')?$('#ideaTags').value:''), createdAt:new Date().toISOString() }); saveAppData(APP); renderIdeas(); if($('#ideaText')) $('#ideaText').value=''; toast('Ideia salva'); }
 
-  // Projects
-  function renderProjects(){ const p = $('#projectsList'); p.innerHTML=''; for(const pr of (APP.projects||[])){ const el = document.createElement('div'); el.className='muted'; el.style.marginBottom='6px'; el.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${escapeHtml(pr.name)}</strong><div class="muted">${pr.desc||''}</div></div><div><button class="btn small" data-act="openProj" data-id="${pr.id}">Abrir</button></div></div>`; p.appendChild(el); } }
-  function addProject(){ const name = $('#newProjectName').value.trim(); if(!name) return; APP.projects.push({ id:'p'+Date.now(), name, desc:'' }); saveAppData(APP); $('#newProjectName').value=''; renderProjects(); toast('Projeto criado'); }
+  // PROJECTS
+  function renderProjects(){ const p = $('#projectsList'); if(!p) return; p.innerHTML=''; for(const pr of (APP.projects||[])){ const el = document.createElement('div'); el.className='muted'; el.style.marginBottom='6px'; el.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${escapeHtml(pr.name)}</strong><div class="muted">${pr.desc||''}</div></div><div><button class="btn small" data-act="openProj" data-id="${pr.id}">Abrir</button></div></div>`; p.appendChild(el); } }
+  function addProject(){ const name = $('#newProjectName') ? $('#newProjectName').value.trim() : ''; if(!name) return; APP.projects.push({ id:'p'+Date.now(), name, desc:'' }); saveAppData(APP); if($('#newProjectName')) $('#newProjectName').value=''; renderProjects(); toast('Projeto criado'); }
 
-  // Tasks
-  function renderTasks(){ const tlist = $('#tasksList'); tlist.innerHTML=''; for(const t of (APP.tasks||[]).slice().reverse()){ const el = document.createElement('div'); el.style.display='flex'; el.style.justifyContent='space-between'; el.style.alignItems='center'; el.style.marginBottom='6px'; el.innerHTML = `<div><input type="checkbox" data-id="${t.id}" ${t.done?'checked':''}/> <strong>${escapeHtml(t.text)}</strong> <span class="muted" style="font-size:12px">${t.due?('• '+t.due):''}</span></div><div><button class="btn small" data-act="rm" data-id="${t.id}">X</button></div>`; tlist.appendChild(el); } }
-  function addTask(){ const txt = $('#taskText').value.trim(); if(!txt) return; APP.tasks.push({ id:'t'+Date.now(), text:txt, done:false, createdAt:new Date().toISOString() }); $('#taskText').value=''; saveAppData(APP); renderTasks(); }
+  // TASKS
+  function renderTasks(){ const tlist = $('#tasksList'); if(!tlist) return; tlist.innerHTML=''; for(const t of (APP.tasks||[]).slice().reverse()){ const el = document.createElement('div'); el.style.display='flex'; el.style.justifyContent='space-between'; el.style.alignItems='center'; el.style.marginBottom='6px'; el.innerHTML = `<div><input type="checkbox" data-id="${t.id}" ${t.done?'checked':''}/> <strong>${escapeHtml(t.text)}</strong> <span class="muted" style="font-size:12px">${t.due?('• '+t.due):''}</span></div><div><button class="btn small" data-act="rm" data-id="${t.id}">X</button></div>`; tlist.appendChild(el); } }
+  function addTask(){ const txt = $('#taskText') ? $('#taskText').value.trim() : ''; if(!txt) return; APP.tasks.push({ id:'t'+Date.now(), text:txt, done:false, createdAt:new Date().toISOString() }); if($('#taskText')) $('#taskText').value=''; saveAppData(APP); renderTasks(); }
 
-  // Achievements & XP
-  function grantXP(amount){ APP.xp = (APP.xp||0) + (amount||0); saveAppData(APP); renderAchievements(); $('#xpBadge').textContent = 'XP: ' + APP.xp; }
-  function renderAchievements(){ const el = $('#achievementsList'); el.innerHTML=''; const list = (APP.achievements||[]); if(list.length===0) el.innerHTML = '<div class="muted">Nenhuma conquista ainda.</div>'; for(const a of list){ const d = document.createElement('div'); d.className='pill'; d.style.padding='6px 10px'; d.style.borderRadius='999px'; d.style.background='rgba(255,255,255,0.02)'; d.textContent = a.title; el.appendChild(d); } }
+  // ACHIEVEMENTS / XP
+  function grantXP(amount){ APP.xp = (APP.xp||0) + (amount||0); saveAppData(APP); renderAchievements(); const xp = $('#xpBadge'); if(xp) xp.textContent = 'XP: ' + APP.xp; }
+  function renderAchievements(){ const el = $('#achievementsList'); if(!el) return; el.innerHTML=''; const list = (APP.achievements||[]); if(list.length===0) el.innerHTML = '<div class="muted">Nenhuma conquista ainda.</div>'; for(const a of list){ const d = document.createElement('div'); d.className='pill'; d.style.padding='6px 10px'; d.style.borderRadius='999px'; d.style.background='rgba(255,255,255,0.02)'; d.textContent = a.title; el.appendChild(d); } }
 
-  // Tools
-  function runCalc(){ const ex = $('#calcExpr').value.trim(); if(!ex) return; try{ const val = Function('"use strict"; return ('+ex+')')(); $('#calcResult').textContent = String(val); }catch(e){ $('#calcResult').textContent = 'Erro'; } }
-  function genPassword(len){ len = Math.max(6, Math.min(128, parseInt(len)||16)); const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:,.<>?'; let out=''; for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)]; $('#passResult').textContent = out; }
+  // TOOLS
+  function runCalc(){ const ex = $('#calcExpr') ? $('#calcExpr').value.trim() : ''; if(!ex) return; try{ const val = Function('"use strict"; return ('+ex+')')(); if($('#calcResult')) $('#calcResult').textContent = String(val); }catch(e){ if($('#calcResult')) $('#calcResult').textContent = 'Erro'; } }
+  function genPassword(len){ len = Math.max(6, Math.min(128, parseInt(len)||16)); const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:,.<>?'; let out=''; for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)]; if($('#passResult')) $('#passResult').textContent = out; }
 
   // Window simulation
-  function minimizeApp(){ $('#appShell').style.display='none'; $('#trayIcon').style.display='flex'; toast('Minimizado'); }
-  function restoreApp(){ $('#appShell').style.display='block'; $('#trayIcon').style.display='none'; toast('Restaurado'); }
+  function minimizeApp(){ const as = $('#appShell'); const tray = $('#trayIcon'); if(as) as.style.display='none'; if(tray) tray.style.display='flex'; toast('Minimizado'); }
+  function restoreApp(){ const as = $('#appShell'); const tray = $('#trayIcon'); if(as) as.style.display='block'; if(tray) tray.style.display='none'; toast('Restaurado'); }
 
   // Pomodoro
   let pomInterval=null, pomSeconds=1500, pomRunning=false;
-  function updatePomDisplay(){ $('#pomTimer').textContent = String(Math.floor(pomSeconds/60)).padStart(2,'0') + ':' + String(pomSeconds%60).padStart(2,'0'); }
+  function updatePomDisplay(){ const el = $('#pomTimer'); if(!el) return; el.textContent = String(Math.floor(pomSeconds/60)).padStart(2,'0') + ':' + String(pomSeconds%60).padStart(2,'0'); }
   function startPom(){ if(pomRunning) return; pomRunning=true; pomInterval=setInterval(()=>{ if(pomSeconds>0) pomSeconds--; else { clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; grantXP(20); toast('Pomodoro concluído +20 XP'); } updatePomDisplay(); }, 1000); }
   function stopPom(){ clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; updatePomDisplay(); }
   function skipPom(){ clearInterval(pomInterval); pomRunning=false; pomSeconds=1500; updatePomDisplay(); }
 
-  // Render entry points
-  function openView(name){
-    $$('[id^="dashboard"], [id^="notas"], [id^="ideias"], [id^="criador"], [id^="programacao"], [id^="estudos"], [id^="produtividade"], [id^="ferramentas"], [id^="config"]').forEach(x=>x.style.display='none');
-    const el = $('#'+name);
-    if(el) el.style.display='block';
-  }
-
-  // Bind events AFTER UI is present
+  // Binding events safely
   function bindEvents(){
-    // nav
+    // NAV
     $$('#nav button').forEach(b=> b.addEventListener('click', ()=>{ $$('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); openView(b.dataset.view); }));
 
-    // global search => notes
-    $('#globalSearch').addEventListener('input', (e)=>{ const q = e.target.value.toLowerCase(); openView('notas'); $('#noteSearch').value = q; renderNotes(); });
+    // Global search
+    const gs = $('#globalSearch'); if(gs) gs.addEventListener('input', (e)=>{ openView('notas'); const q = e.target.value.toLowerCase(); const ns = $('#noteSearch'); if(ns) ns.value = q; renderNotes(); });
 
-    // minimize / tray / close / compact
-    $('#minimizeBtn').addEventListener('click', minimizeApp);
-    $('#trayIcon').addEventListener('click', restoreApp);
-    $('#closeBtn').addEventListener('click', ()=>{ if(confirm('Fechar aplicativo?')) window.close(); });
-    $('#maximizeBtn').addEventListener('click', ()=> $('#shell').classList.toggle('compact'));
+    // Window controls
+    safeOn('#minimizeBtn', minimizeApp);
+    safeOn('#trayIcon', restoreApp);
+    safeOn('#closeBtn', ()=>{ if(confirm('Fechar aplicativo?')) window.close(); });
+    safeOn('#maximizeBtn', ()=> { const s = $('#shell'); if(s) s.classList.toggle('compact'); });
 
-    // lock
-    $('#lockBtn').addEventListener('click', ()=> doLock());
-    $('#overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay'){} });
+    // Lock / overlay
+    safeOn('#lockBtn', ()=> doLock());
+    const overlay = $('#overlay'); if(overlay) overlay.addEventListener('click', (e)=>{ if(e.target.id==='overlay'){} });
 
     // overlay buttons
-    $('#loginBtn').addEventListener('click', async ()=> { const pw = $('#passwordInput').value; await doUnlock(pw); });
-    $('#setupBtn').addEventListener('click', async ()=> { const pw = $('#passwordInput').value; if(!pw) return toast('Senha vazia'); await createPassword(pw); hideOverlay(); APP = await loadAppData(); renderAll(); });
-    $('#resetProtected').addEventListener('click', resetProtection);
+    safeOn('#loginBtn', async ()=> { const pw = $('#passwordInput') ? $('#passwordInput').value : ''; await doUnlock(pw); });
+    safeOn('#setupBtn', async ()=> { const pw = $('#passwordInput') ? $('#passwordInput').value : ''; if(!pw) return toast('Senha vazia'); await createPassword(pw); hideOverlay(); APP = await loadAppData(); renderAll(); });
+    safeOn('#resetProtected', resetProtection);
 
-    // notes
-    $('#noteSearch').addEventListener('input', renderNotes);
-    $('#createNote').addEventListener('click', createNote);
-    $('#newNoteQuick').addEventListener('click', ()=>{ openView('notas'); createNote(); });
-    $('#notesList').addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(btn && btn.dataset.act==='open'){ openNoteById(btn.dataset.id); }});
-    $('#saveNote').addEventListener('click', saveNoteFromEditor);
-    $('#deleteNote').addEventListener('click', ()=> deleteNoteById($('#deleteNote').dataset.id || ''));
-    // autosave typing
-    let autosaveTimer=null;
-    $('#noteContent').addEventListener('input', ()=>{ clearTimeout(autosaveTimer); autosaveTimer = setTimeout(()=> saveNoteFromEditor(), 900); });
-
-    // ideas
-    $('#addIdea').addEventListener('click', addIdea);
-
-    // projects
-    $('#addProject').addEventListener('click', addProject);
-
-    // tasks
-    $('#taskText').addEventListener('keypress', (e)=>{ if(e.key==='Enter') addTask(); });
-    $('#tasksList').addEventListener('click', (e)=>{ const cb = e.target.closest('input[type="checkbox"]'); if(cb) { const id=cb.dataset.id; const t = APP.tasks.find(x=>x.id===id); if(t){ t.done = cb.checked; saveAppData(APP); renderTasks(); if(cb.checked) { grantXP(10); toast('+10 XP'); } } } const btn = e.target.closest('button'); if(btn && btn.dataset.act==='rm'){ APP.tasks = APP.tasks.filter(t=>t.id!==btn.dataset.id); saveAppData(APP); renderTasks(); } });
-
-    // tools
-    $('#calcRun').addEventListener('click', runCalc);
-    $('#genPass').addEventListener('click', ()=> genPassword($('#passLength').value));
-
-    // quick shortcuts
-    $('#openNotes').addEventListener('click', ()=> { document.querySelector('[data-view="notas"]').click(); });
-    $('#openIdeas').addEventListener('click', ()=> { document.querySelector('[data-view="ideias"]').click(); });
-
-    // password config
-    $('#setPassword').addEventListener('click', ()=> { showOverlay('Crie sua nova senha', true); });
-    $('#removePassword').addEventListener('click', ()=> { if(!localStorage.getItem(KEY_PROTECTED)) return toast('Nenhuma senha configurada'); if(confirm('Remover senha? Isso pode expor dados não encriptados.')) resetProtection(); });
-
-    // save settings
-    $('#autoLockMins').addEventListener('change', ()=> { SETTINGS.autoLockMins = +$('#autoLockMins').value; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); startAutoLockTimer(); });
-
-    // sound toggle
-    $('#soundToggle').addEventListener('click', ()=> { SETTINGS.sound = !SETTINGS.sound; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); toast('Som ' + (SETTINGS.sound ? 'ativado' : 'desativado')); });
-
-    // plan save
-    $('#savePlan').addEventListener('click', ()=> { APP.plans.video = $('#planVideo').value; saveAppData(APP); toast('Plano salvo'); });
-
-    // Pomodoro buttons
-    $('#pomStart').addEventListener('click', startPom);
-    $('#pomStop').addEventListener('click', stopPom);
-    $('#pomSkip').addEventListener('click', skipPom);
-
-    // note list open (delegation)
-    $('#notesList').addEventListener('click', (e)=> {
-      const openBtn = e.target.closest('button[data-act="open"]');
-      if(openBtn) openNoteById(openBtn.dataset.id);
-    });
-
-    // tasksList render initially
-    renderTasks();
-
-    // attach delete/save note dataset guard (ensure elements exist)
-    if(!$('#saveNote')) {
-      console.warn('saveNote element missing');
+    // NOTES
+    const ns = $('#noteSearch'); if(ns) ns.addEventListener('input', renderNotes);
+    safeOn('#createNote', createNote);
+    safeOn('#newNoteQuick', ()=>{ openView('notas'); createNote(); });
+    const notesList = $('#notesList'); if(notesList){
+      notesList.addEventListener('click', (e)=>{ const btn = e.target.closest('button'); if(btn && btn.dataset.act==='open' && btn.dataset.id) openNoteById(btn.dataset.id); });
+    }
+    safeOn('#saveNote', saveNoteFromEditor);
+    safeOn('#deleteNote', ()=> { const del = $('#deleteNote'); if(del && del.dataset.id) deleteNoteById(del.dataset.id); });
+    // autosave on typing
+    const noteContent = $('#noteContent'); if(noteContent){
+      let autosaveTimer=null;
+      noteContent.addEventListener('input', ()=>{ clearTimeout(autosaveTimer); autosaveTimer = setTimeout(()=> saveNoteFromEditor(), 900); });
     }
 
-    // global activity detection
+    // IDEAS
+    safeOn('#addIdea', addIdea);
+
+    // PROJECTS
+    safeOn('#addProject', addProject);
+
+    // TASKS
+    const taskText = $('#taskText'); if(taskText) taskText.addEventListener('keypress', (e)=>{ if(e.key==='Enter') addTask(); });
+    const tasksList = $('#tasksList'); if(tasksList){
+      tasksList.addEventListener('click', (e)=>{ const cb = e.target.closest('input[type="checkbox"]'); if(cb && cb.dataset.id){ const id = cb.dataset.id; const t = APP.tasks.find(x=>x.id===id); if(t){ t.done = cb.checked; saveAppData(APP); renderTasks(); if(cb.checked) { grantXP(10); toast('+10 XP'); } } } const btn = e.target.closest('button'); if(btn && btn.dataset.act==='rm' && btn.dataset.id){ APP.tasks = APP.tasks.filter(t=>t.id!==btn.dataset.id); saveAppData(APP); renderTasks(); } });
+    }
+
+    // TOOLS
+    safeOn('#calcRun', runCalc);
+    safeOn('#genPass', ()=> genPassword($('#passLength') ? $('#passLength').value : 16));
+
+    // QUICKS
+    safeOn('#openNotes', ()=> { document.querySelector('[data-view="notas"]')?.click(); });
+    safeOn('#openIdeas', ()=> { document.querySelector('[data-view="ideias"]')?.click(); });
+
+    // CONFIG
+    safeOn('#setPassword', ()=> { showOverlay('Crie sua nova senha', true); });
+    safeOn('#removePassword', ()=> { if(!localStorage.getItem(KEY_PROTECTED)) return toast('Nenhuma senha configurada'); if(confirm('Remover senha? Isso pode expor dados não encriptados.')) resetProtection(); });
+    const autoLockEl = $('#autoLockMins'); if(autoLockEl) autoLockEl.addEventListener('change', ()=> { SETTINGS.autoLockMins = +autoLockEl.value; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); startAutoLockTimer(); });
+
+    // SOUND
+    safeOn('#soundToggle', ()=> { SETTINGS.sound = !SETTINGS.sound; localStorage.setItem(KEY_SETTINGS, JSON.stringify(SETTINGS)); toast('Som ' + (SETTINGS.sound ? 'ativado' : 'desativado')); });
+
+    // PLAN
+    safeOn('#savePlan', ()=> { if($('#planVideo')) APP.plans.video = $('#planVideo').value; saveAppData(APP); toast('Plano salvo'); });
+
+    // POMODORO
+    safeOn('#pomStart', startPom); safeOn('#pomStop', stopPom); safeOn('#pomSkip', skipPom);
+
+    // activity detection
     ['mousemove','keydown','mousedown','touchstart'].forEach(ev => window.addEventListener(ev, resetInactivity));
   }
 
-  /* Start app */
-  document.addEventListener('DOMContentLoaded', ()=> {
-    // prepare overlay buttons visibility
+  // Initialization
+  async function initApp(){
+    startAutoLockTimer();
+    APP = await loadAppData();
+    renderAll();
+    if(localStorage.getItem(KEY_PROTECTED) && !derivedKey){ LOCKED = true; showOverlay('Insira sua senha para desbloquear', false); } else { LOCKED = false; hideOverlay(); }
+    bindEvents();
+    setInterval(()=> { const d = new Date(); const clock = $('#clock'), date = $('#date'); if(clock) clock.textContent = d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); if(date) date.textContent = d.toLocaleDateString(); }, 1000);
+    updatePomDisplay();
+  }
+
+  // Start
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // ensure overlay buttons visibility consistent
     const prot = localStorage.getItem(KEY_PROTECTED);
-    if(!prot){ $('#setupBtn').style.display='none'; $('#loginBtn').style.display='inline-block'; }
-    // kick splash -> init
+    if(!prot){ const sb = $('#setupBtn'); if(sb) sb.style.display='none'; const lb = $('#loginBtn'); if(lb) lb.style.display='inline-block'; }
     startSplashThenInit();
   });
 
